@@ -446,10 +446,4 @@ app.use(cors());
 require('./route')(router);
 app.use('/', router);
 app.listen(port);
-
-
-console.log(`App Runs on ${port}`);
-
-
-
-
+console.log(`App of version v0.01 Runs on ${port}`);
