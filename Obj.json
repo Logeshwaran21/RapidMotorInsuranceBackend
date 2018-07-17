@@ -1,0 +1,84 @@
+{"patientData":[{"PATEINT_DETAILS": [{
+	"NAME": "name"
+}, {
+	"AGE": "26"
+},
+{
+	"DOA": "DOA"
+},
+{
+	"REF_DOC": "Dr ranade"
+},
+{
+	"IPD_No": "IPD"
+},
+{
+	"MLC": ""
+},
+{
+	"SEX": "female"
+},
+{
+	"DOD": "Discharge"
+}
+]
+},
+
+{
+"Treatment": [{
+		"DAIGONIS": "pregnency"
+	},
+	{
+		"Cheif_Complaints_On_Admission": ""
+	},
+	{
+		"Past_History_with_Allergy": ""
+	},
+	{
+		"Personal_History": ""
+	},
+	{
+		"Family_History": ""
+	},
+	{
+		"Menstrual_History": ""
+	},
+	{
+		"Obstretric_History": ""
+	},
+	{
+		"Genral_Examination": ""
+	},
+	{
+		"Systematic_Examination": ""
+	}
+]
+}, {
+"Package_details": [{
+		"Investigations": "done"
+	},
+	{
+		"BaBys_Details": "normal"
+	},
+	{
+		"Course_in_Hospital_And_condition": "good"
+	},
+	{
+		"Treatment_Given": "given properly"
+	},
+	{
+		"Treatment_Adviced": "given"
+	},
+	{
+		"Follow_Up_Visit": "completed"
+	},
+	{
+		"Procedure_done": "done"
+	}
+]}],
+
+"TotalClaimedAmount":10000,
+"status": "initiated",
+"HospitalName": "Apollo",
+"SubmitId":"sucess"
+}
