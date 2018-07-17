@@ -2,7 +2,6 @@
 
 
 const registerUser = require('./functions/registerUser');
-const Hospital=require('./functions/Hospital');
 const mockWeather = require('./functions/smartContract');
 var crypto = require('crypto');
 var fs = require('fs');
