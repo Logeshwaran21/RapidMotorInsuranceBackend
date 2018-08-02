@@ -1,15 +1,17 @@
 'use strict';
 
 
-const registerUser = require('./functions/registerUser');
+
 const mockWeather = require('./functions/smartContract');
 var crypto = require('crypto');
 var fs = require('fs');
 var cors = require('cors');
+// var log4js = require('log4js');
+// var logger = log4js.getLogger('SampleWebApp');
 var tpaApproval=require("./functions/Tpaapproval.js")
  const contractJs = require('./functions/contract');
  const payer=require("./functions/payer");
-
+ const Policyrules = require('./functions/Policyrules');
 var config = require('./config.json')
 var oneday= require('./functions/oneday')
 const getpatientdetails = require('./functions/getpatientdetails');
@@ -17,9 +19,10 @@ const getHistory = require('./functions/getHistory');
 const updatetpa=require('./functions/updatetpa');
 const updatetransaction = require('./functions/updatetransaction');
 const savetransaction = require('./functions/savetransaction');
-const readIndex = require('./functions/readIndex');
 
+const uuidv1 = require('uuid/v1');
 
+var sequential = require("sequential-ids");
 var cors = require('cors');
 var mongoose = require('mongoose');
 
@@ -35,17 +38,25 @@ var path = require('path');
 module.exports = router => {
    
 //=============================================create discharge summary==============================================================//
-        router.post('/createContract', cors(),function(req,res){
+        router.post('/sumbitClaim', cors(),function(req,res){
 
         var conditions =req.body.patientData;
                         var HospitalName=req.body.HospitalName;
-                        var submitID=req.body.submitID;
+                        var submitID=" ";
                         var status = req.body.status;
-                        var TotalClaimedAmount=req.body.TotalClaimedAmount
+                        var TotalClaimedAmount=req.body.TotalClaimedAmount;
+                        var submitID  =   uuidv1();
+        
          
              contractJs.createContract(conditions,HospitalName,submitID,status,TotalClaimedAmount)
              .then(result => {
-                
+                res.send({
+                    "message": "Patient details saved",
+                    "status": true,
+                    
+                    "submitID":submitID
+                });
+
         
                         res.status(result.status).json({
                             message: result.message
@@ -58,8 +69,8 @@ module.exports = router => {
                     }))
                 });
 
-//============================================mock weather====================================================//         
-router.get('/trigger',cors(),function(req,res){
+//============================================validateClaimdetails====================================================//         
+router.get('/ValidateClaim',cors(),function(req,res){
 
     // var HospitalName= req.body.HospitalName;
    var jsonfile = require('jsonfile')
@@ -88,12 +99,46 @@ router.get('/trigger',cors(),function(req,res){
                  
                });
    
-            
+ //=============================Policy===================================================//           
+               router.post('/Policy',(req,res)=>{
+                const policyId = req.body.policyId;
+                const policydate_date= req.body.policydate_date;
+                const provider = req.body.provider;
+                var rules = req.body.rules;
+                console.log("PolicyId", policyId);
+                console.log("policydate_date", policydate_date);
+                console.log("provider", provider);
+                console.log("rules", rules);
+                       Policyrules.Policyrules (policyId,policydate_date,provider,rules)
+                       .then(result => {
+                        
+                        res.status(200).json({
+                         message: "conditions satisfied for the users below"
+                        });
+    
+                    }) .catch(err => res.status(err.status).json({
+                        message: err.message
+                    }))
+     });
+              
+    //  router.get('/channels', function(req, res) {
+    //     logger.debug('================ GET CHANNELS ======================');
+    //     logger.debug('peer: ' + req.query.peer);
+    //     var peer = req.query.peer;
+    //     if (!peer) {
+    //         res.json(getErrorMessage('\'peer\''));
+    //         return;
+    //     }
+    
+    //     query.getChannels(peer, req.username, req.orgname)
+    //     .then(function(
+    //         message) {
+    //         res.send(message);
+    //     });
+    // });      
 
-           
-
-//==========================Tpa=====================================================================//
-router.get('/Tpa',cors(),function(req,res){
+//==========================updatestatus=====================================================================//
+router.get('/statusSettlement',cors(),function(req,res){
    
         tpaApproval.mock()
              .then(result => {
@@ -108,7 +153,7 @@ router.get('/Tpa',cors(),function(req,res){
                 });
             
 //===========================tpa changing status=========================================================//
-router.post('/Tpaupdate',cors(),function(req,res){
+router.post('/AutoApprovedClaim',cors(),function(req,res){
    var status= req.body.status;
    var id=req.body.id;
    var message=req.body.message;
@@ -150,7 +195,7 @@ router.post("/HospitalDashboard",cors(),function(req,res){
 })
 
 //=========================================24hrs trigger===============================================//
-router.get("/24hrs",cors(),(req,res)=>{
+router.get("/noresponseApproveClaim",cors(),(req,res)=>{
     oneday.oneday().then((results)=>{
             console.log(results)
             res.send({"status":200,
@@ -223,7 +268,7 @@ router.post("/updateDischargeSummary",cors(),(req,res)=>{
     });
 
 
-                router.post('/getHistory',(req,res)=>{
+                router.post('/RetrieveClaim',(req,res)=>{
                     console.log("requ...123>>>ui>>>",req.body);
                     const userId = req.body.userId;
                     console.log("userId", userId);
@@ -305,7 +350,7 @@ router.post("/updateDischargeSummary",cors(),(req,res)=>{
 
 
     
-                             router.get("/getpatientdetails", cors(), (req, res) => {
+                             router.get("/retrieveBulkPatientRecords", cors(), (req, res) => {
                                 
                                                                        
                                             var startKey = '000';

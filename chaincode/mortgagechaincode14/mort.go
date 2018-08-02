@@ -80,6 +80,7 @@
      return t.readAllRequest(APIstub,args)
     case "getHistory":
         return t.getHistory(APIstub,args)
+        
 
      }
      return shim.Error("Invalid Smart Contract function name.")

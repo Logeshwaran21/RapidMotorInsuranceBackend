@@ -1,6 +1,5 @@
 'use strict';
 var bcSdk = require('../fabcar/query');
-// const user = require('../models/patientdetails');
 
 
 exports.getpatientdetails = (startKey,endKey) => {

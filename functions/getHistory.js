@@ -1,6 +1,6 @@
 var bcSdk = require('../fabcar/query');
 const user = require('../models/patientdetails');
-//const user = require('../models/fetchdata');
+
 
        
         exports.getHistory = (userId) => {
@@ -12,9 +12,6 @@ const user = require('../models/patientdetails');
                         
                    })
             
-                           // request.find({
-                            //         "rapidID": rapidID
-                            //     })
             
                                .then((docs) => {
                                    var len=docs.length;

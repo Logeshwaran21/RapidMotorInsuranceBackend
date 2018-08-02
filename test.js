@@ -1,40 +1,21 @@
-// var nem = require("nem-sdk").default;
+// var encryptionHelper = require("./simple-nodejs-iv-encrypt-decrypt.js")
+// var story = "this is the story of the brave prince who went off to fight the horrible dragon... he set out on his quest one sunny day";
+// var algorithm = encryptionHelper.CIPHERS.AES_256;
 
-// // Create an NIS endpoint object
-// var endpoint = nem.model.objects.create("endpoint")(nem.model.nodes.defaultMijin, nem.model.nodes.mijinPort);
+// console.log("testing encryption and decryption");
+// console.log("text is: " + story);
 
-// // Address we'll use in some queries
-// var address = "MCXP3JJP62JU2GCNX6HPUWW2QYNLS5SPTCDRPHDA";
-// var txhash;
-// //Get all transactions of account
-// function hello(){
-// nem.com.requests.account.transactions.all(endpoint, address,txhash).then(function(res) {
-//     for(let a=0;a<res.data.length-1;a++){
+// encryptionHelper.getKeyAndIV("1234567890abcdefghijklmnopqrstuv", function (data) { //using 32 byte key
 
-//         var msg =res.data[a].transaction.message.payload
-//         var fmt = nem.utils.format.hexToUtf8(msg);
-//         console.log(fmt)
-//     txhash = (res.data[res.data.length-1].meta.hash.data)
-//     }
-//     if(res.data.length != 0){
-//         hello()
-//     }
-// }, function(err) {
-// 	console.error(err);
+//     console.log("got key and iv buffers");
+
+//     var encText = encryptionHelper.encryptText(algorithm, data.key, data.iv, story, "base64");
+
+//     console.log("encrypted text = " + encText);
+
+//     var decText = encryptionHelper.decryptText(algorithm, data.key, data.iv, encText, "base64");
+
+//     console.log("decrypted text = " + decText);
+
+//     assert.equal(decText, story);
 // });
-// }
-// hello()
-
-
-// var crypto= require("crypto")
-// var rapidID
-// patientData=[{"patientdetails":{"dsdas":"dadads",
-//   "qwqwqw":"qwqw",
-//   "asdas":"dadada"
-// }},
-// {"Treatment":{"adada":"adada","qwqwq":"qwqwqw"}}]
-
-// var strings=JSON.stringify(patientData)
-// console.log(strings)
-// rapidID = crypto.createHash('sha256').update(strings).digest('base64');
-// console.log(rapidID)

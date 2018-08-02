@@ -1,6 +1,5 @@
 'use strict';
-// const bc_client = require('../blockchain_sample_client'); const bcrypt =
-// require('bcryptjs');
+
 var bcSdk = require('../fabcar/invoke');
 const  patientpage = require('../models/patientdetails');
 

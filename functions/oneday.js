@@ -1,5 +1,5 @@
 var Tpa = require("../models/Tpa");
-//const nem = require("nem-sdk").default;
+
 
 exports.oneday=()=>{
     return new Promise(async(resolve,reject)=>{

@@ -43,6 +43,7 @@
     "performance-now": "^2.1.0",
     "promise": "^8.0.1",
     "randomstring": "^1.1.5",
+    "sequential-ids": "0.0.0",
     "tunnel-agent": "^0.6.0",
     "underscore": "^1.8.3",
     "uniqid": "^5.0.3",

@@ -29,7 +29,7 @@ exports.mock = (obj) => {
             var str = (JSON.stringify(result[i]._doc.patientData));
             console.log("str=========================>", str);
             const rapidID = crypto.createHash('sha256').update(str).digest('base64');
-            var submitID = uniqid();
+            var submitID = result[i]._doc.submitID;
             console.log("submitID", submitID)
             var HospitalName = result[i]._doc.HospitalName;
 

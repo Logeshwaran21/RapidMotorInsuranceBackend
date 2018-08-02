@@ -1,6 +1,4 @@
 'use strict';
-// const bc_client = require('../blockchain_sample_client'); const bcrypt =
-// require('bcryptjs');
 var bcSdk = require('../fabcar/invoke.js');
 const  updatepage = require('../models/update');
 
@@ -18,7 +16,7 @@ return new Promise((resolve, reject) => {
    .then(() => resolve({ 
     status: 201,
     message: 'user patient details updated successfully!',
-   // creditscore: transactionstring.creditscore
+   
 }))
   
     .then(() => 

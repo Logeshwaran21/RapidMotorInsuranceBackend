@@ -18,16 +18,12 @@ exports.createContract =(conditions,HospitalName,submitID,status,TotalClaimedAmo
                 
                 console.log("discharge summary====================>",data)
                 var data1  = {"TransactionDetails":{
-                    // "patientData":conditions,
-                    // "HospitalName":HospitalName,
-                    // "submitID":submitID,
+                   
                     "userId":submitID,
                     "transactionstring":data
-                    // "status":status,
-                    // "TotalClaimedAmount":TotalClaimedAmount,
-                    //   created_at: new Date()
+                   
                     }}
-               // console.log(data,"record");
+             
                 data.save()
                
                 .then(
@@ -40,10 +36,20 @@ exports.createContract =(conditions,HospitalName,submitID,status,TotalClaimedAmo
 
             .catch(err =>{ 
 
+                if (err.code == 11000) {
+
+                    reject({
+                        status: 409,
+                        message: 'User Already Registered !'
+                    });
+    
+                } else {
+    
                     reject({
                         status: 500,
                         message: 'Internal Server Error !'
                     });
+                }
  });
 
         })

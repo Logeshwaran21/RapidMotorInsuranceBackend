@@ -1,5 +1,4 @@
 
-//const nem = require("nem-sdk").default;
 const crypto= require("crypto")
 var patientData= require("../models/patientData");
 var Tpa = require('../models/Tpa');
