@@ -1,3 +1,4 @@
+
 'use strict';
 
 var crypto = require('crypto');
@@ -53,7 +54,7 @@ exports.mock = (obj) => {
                     console.log("string========================>", string)
                    
                     var data = new Tpa({
-                        "transactionstring": result[i]._doc.patientData,
+                        "patientData": result[i]._doc.patientData,
                         "HospitalName": result[i]._doc.HospitalName,
                         "status": "Auto approved",
                         "submitID": submitID,
@@ -66,16 +67,16 @@ exports.mock = (obj) => {
                     });
 
                     var recordhkj = {"TransactionDetails": {
-                        "transactionstring": result[i]._doc.patientData,
-                        "HospitalName": result[i]._doc.HospitalName,
-                        "status": "Auto approved",
-                        "submitID": submitID,
-                        "rapidID": rapidID,
-                        "message": "Payment process initiated",
-                        "Expenses": result[i].TotalClaimedAmount,
-                        "AmountPayerWouldPay": result[i]._doc.TotalClaimedAmount * 0.8,
-                        "AmountuserHavetopay": result[i]._doc.TotalClaimedAmount * 0.2,
-                        created_at: new Date(),
+                        "transactionstring": data,
+                        // "HospitalName": result[i]._doc.HospitalName,
+                        // "status": "Auto approved",
+                        // "submitID": submitID,
+                        // "rapidID": rapidID,
+                        // "message": "Payment process initiated",
+                        // "Expenses": result[i].TotalClaimedAmount,
+                        // "AmountPayerWouldPay": result[i]._doc.TotalClaimedAmount * 0.8,
+                        // "AmountuserHavetopay": result[i]._doc.TotalClaimedAmount * 0.2,
+                        // created_at: new Date(),
                         "userId": submitID
                     }}
                         console.log(recordhkj,"record123");
@@ -101,7 +102,7 @@ exports.mock = (obj) => {
                     
                    
                     var data = new Tpa({
-                        "transactionstring": result[i]._doc.patientData,
+                        "patientData": result[i]._doc.patientData,
                         "HospitalName": result[i]._doc.HospitalName,
                         "status": "Auto approved",
                         "submitID": submitID,
@@ -116,15 +117,15 @@ exports.mock = (obj) => {
 
                     var recordhkj = {"TransactionDetails": {
                         "transactionstring": result[i]._doc.patientData,
-                        "HospitalName": result[i]._doc.HospitalName,
-                        "status": "Auto approved",
-                        "submitID": submitID,
-                        "rapidID": rapidID,
-                        "message": "Payment process initiated",
-                        "Expenses": result[i].TotalClaimedAmount,
-                        "AmountPayerWouldPay": result[i]._doc.TotalClaimedAmount * 0.8,
-                        "AmountuserHavetopay": result[i]._doc.TotalClaimedAmount * 0.2,
-                        created_at: new Date(),
+                        // "HospitalName": result[i]._doc.HospitalName,
+                        // "status": "Auto approved",
+                        // "submitID": submitID,
+                        // "rapidID": rapidID,
+                        // "message": "Payment process initiated",
+                        // "Expenses": result[i].TotalClaimedAmount,
+                        // "AmountPayerWouldPay": result[i]._doc.TotalClaimedAmount * 0.8,
+                        // "AmountuserHavetopay": result[i]._doc.TotalClaimedAmount * 0.2,
+                        // created_at: new Date(),
                         "userId": submitID
                     }}
                         console.log(recordhkj,"record123");
@@ -151,7 +152,7 @@ exports.mock = (obj) => {
 
                 if (HospitalName == "Fortis") {
                     var data = new Tpa({
-                        "transactionstring": result[i]._doc.patientData,
+                        "patientData": result[i]._doc.patientData,
                         "status": "Waiting for Tpa approval(24hr)",
                         "HospitalName": result[i]._doc.HospitalName,
                         "submitID": submitID,
@@ -166,16 +167,16 @@ exports.mock = (obj) => {
                     });
 
                     var recordhkj = {"TransactionDetails": {
-                        "transactionstring": result[i]._doc.transactionstring,
-                        "HospitalName": result[i]._doc.HospitalName,
-                        "status": "Auto approved",
-                        "submitID": submitID,
-                        "rapidID": rapidID,
-                        "message": "Payment process initiated",
-                        "Expenses": result[i].TotalClaimedAmount,
-                        "AmountPayerWouldPay": result[i]._doc.TotalClaimedAmount * 0.8,
-                        "AmountuserHavetopay": result[i]._doc.TotalClaimedAmount * 0.2,
-                        created_at: new Date(),
+                        "transactionstring": data,
+                        // "HospitalName": result[i]._doc.HospitalName,
+                        // "status": "Auto approved",
+                        // "submitID": submitID,
+                        // "rapidID": rapidID,
+                        // "message": "Payment process initiated",
+                        // "Expenses": result[i].TotalClaimedAmount,
+                        // "AmountPayerWouldPay": result[i]._doc.TotalClaimedAmount * 0.8,
+                        // "AmountuserHavetopay": result[i]._doc.TotalClaimedAmount * 0.2,
+                        // created_at: new Date(),
                         "userId": submitID
                     }}
                         console.log(recordhkj,"record123");
@@ -195,7 +196,7 @@ exports.mock = (obj) => {
 
                 if (HospitalName == "Apollo") {
                     var data = new Tpa({
-                        "transactionstring": result[i]._doc.patientData,
+                        "patientData": result[i]._doc.patientData,
                         "HospitalName": result[i]._doc.HospitalName,
                         "status": "Waiting for Tpa approval(24hr)",
                         "submitID": submitID,
@@ -211,16 +212,16 @@ exports.mock = (obj) => {
                
                  }
                 var recordhkj = {"TransactionDetails": {
-                    "transactionstring": result[i]._doc.patientData,
-                    "HospitalName": result[i]._doc.HospitalName,
-                    "status": "Auto approved",
-                    "submitID": submitID,
-                    "rapidID": rapidID,
-                    "message": "Payment process initiated",
-                    "Expenses": result[i].TotalClaimedAmount,
-                    "AmountPayerWouldPay": result[i]._doc.TotalClaimedAmount * 0.8,
-                    "AmountuserHavetopay": result[i]._doc.TotalClaimedAmount * 0.2,
-                    created_at: new Date(),
+                    "transactionstring": data,
+                    // "HospitalName": result[i]._doc.HospitalName,
+                    // "status": "Auto approved",
+                    // "submitID": submitID,
+                    // "rapidID": rapidID,
+                    // "message": "Payment process initiated",
+                    // "Expenses": result[i].TotalClaimedAmount,
+                    // "AmountPayerWouldPay": result[i]._doc.TotalClaimedAmount * 0.8,
+                    // "AmountuserHavetopay": result[i]._doc.TotalClaimedAmount * 0.2,
+                    // created_at: new Date(),
                     "userId": submitID
                 }}
                     console.log(recordhkj,"record123");
@@ -238,7 +239,7 @@ exports.mock = (obj) => {
                 console.log("when amount is way out of range", (result[i].TotalClaimedAmount <= file.CoverageAmt && (result[i].TotalClaimedAmount > file.preproposedAmt)))
                 if (HospitalName == "Fortis") {
                     var data = new Tpa({
-                        "transactionstring": result[i]._doc.patientData,
+                        "patientData": result[i]._doc.patientData,
                         "status": "Waiting for Tpa approval",
                         "HospitalName": result[i]._doc.HospitalName,
                         "submitID": submitID,
@@ -254,16 +255,16 @@ exports.mock = (obj) => {
                     
 
                     var recordhkj = {"TransactionDetails": {
-                        "transactionstring": result[i]._doc.patientData,
-                        "HospitalName": result[i]._doc.HospitalName,
-                        "status": "Auto approved",
-                        "submitID": submitID,
-                        "rapidID": rapidID,
-                        "message": "Payment process initiated",
-                        "Expenses": result[i].TotalClaimedAmount,
-                        "AmountPayerWouldPay": result[i]._doc.TotalClaimedAmount * 0.8,
-                        "AmountuserHavetopay": result[i]._doc.TotalClaimedAmount * 0.2,
-                        created_at: new Date(),
+                        "transactionstring": data,
+                        // "HospitalName": result[i]._doc.HospitalName,
+                        // "status": "Auto approved",
+                        // "submitID": submitID,
+                        // "rapidID": rapidID,
+                        // "message": "Payment process initiated",
+                        // "Expenses": result[i].TotalClaimedAmount,
+                        // "AmountPayerWouldPay": result[i]._doc.TotalClaimedAmount * 0.8,
+                        // "AmountuserHavetopay": result[i]._doc.TotalClaimedAmount * 0.2,
+                        // created_at: new Date(),
                         "userId": submitID
                     }}
                         console.log(recordhkj,"record123");
@@ -279,7 +280,7 @@ exports.mock = (obj) => {
 
                 if (HospitalName == "Apollo") {
                     var data = new Tpa({
-                        "transactionstring": result[i]._doc.patientData,
+                        "patientData": result[i]._doc.patientData,
                         "status": "Waiting for Tpa approval",
                         "HospitalName": result[i]._doc.HospitalName,
                         "submitID": submitID,
@@ -294,16 +295,16 @@ exports.mock = (obj) => {
                    
 
                     var recordhkj = {"TransactionDetails": {
-                        "transactionstring": result[i]._doc.patientData,
-                        "HospitalName": result[i]._doc.HospitalName,
-                        "status": "Auto approved",
-                        "submitID": submitID,
-                        "rapidID": rapidID,
-                        "message": "Payment process initiated",
-                        "Expenses": result[i].TotalClaimedAmount,
-                        "AmountPayerWouldPay": result[i]._doc.TotalClaimedAmount * 0.8,
-                        "AmountuserHavetopay": result[i]._doc.TotalClaimedAmount * 0.2,
-                        created_at: new Date(),
+                        "transactionstring": data,
+                        // "HospitalName": result[i]._doc.HospitalName,
+                        // "status": "Auto approved",
+                        // "submitID": submitID,
+                        // "rapidID": rapidID,
+                        // "message": "Payment process initiated",
+                        // "Expenses": result[i].TotalClaimedAmount,
+                        // "AmountPayerWouldPay": result[i]._doc.TotalClaimedAmount * 0.8,
+                        // "AmountuserHavetopay": result[i]._doc.TotalClaimedAmount * 0.2,
+                        // created_at: new Date(),
                         "userId": submitID
                     }
                         }
@@ -328,6 +329,5 @@ exports.mock = (obj) => {
     })
 
 }
-
 
 

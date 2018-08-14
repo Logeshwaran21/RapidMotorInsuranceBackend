@@ -20,7 +20,7 @@ exports.createContract =(conditions,HospitalName,submitID,status,TotalClaimedAmo
                 var data1  = {"TransactionDetails":{
                    
                     "userId":submitID,
-                    "transactionstring":data
+                    "transactionstring":data.id
                    
                     }}
              

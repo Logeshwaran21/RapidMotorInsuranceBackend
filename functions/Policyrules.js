@@ -1,11 +1,11 @@
 'use strict';
 var bcSdk = require('../fabcar/invoke');
-//const  patientpage = require('../models/patientdetails');
+const  rulespage = require('../models/rules');
 
 exports.Policyrules = (policyId,policydate_date,provider,rules) => {
     return new Promise((resolve, reject) => {
-
-    var newpage = new patientpage ({
+        console.log("in func");
+    var newpage = new rulespage({
 
         "policyId":policyId,
         "policydate_date":policydate_date,
@@ -18,12 +18,13 @@ exports.Policyrules = (policyId,policydate_date,provider,rules) => {
    console.log("enter chain func");
     var newPolicy = {TransactionDetails:{
         "userId":policyId,
-        "transactionstring":newpage
+        "transactionstring":newpage.id
 
 
 
     }}
-//newpage.save()
+    //console.log("storeid",id);
+newpage.save()
 .then(
 bcSdk.savetransaction(newPolicy))
 
