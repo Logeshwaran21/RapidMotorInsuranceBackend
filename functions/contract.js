@@ -10,24 +10,24 @@ exports.createContract =(conditions,HospitalName,submitID,status,TotalClaimedAmo
                 "patientData":conditions,
                 "HospitalName":HospitalName,
                 "submitID":submitID,
-                "userId":submitID,
+               // "userId":submitID,
                 "status":status,
                 "TotalClaimedAmount":TotalClaimedAmount,
                   created_at: new Date()
                 });
                 
                 console.log("discharge summary====================>",data)
-                var data1  = {"TransactionDetails":{
+                var ldata  = {TransactionDetails:{
                    
                     "userId":submitID,
-                    "transactionstring":data.id
+                    "transactionstring":data
                    
                     }}
              
                 data.save()
                
                 .then(
-                    bcSdk.savetransaction(data1))
+                    bcSdk.savetransaction(ldata))
     
             .then(() => resolve({
                 status: 201,
@@ -54,3 +54,19 @@ exports.createContract =(conditions,HospitalName,submitID,status,TotalClaimedAmo
 
         })
     }
+// bcSdk.savetransaction(data2).then((response) =>{ 
+                
+//     console.log(response)
+//     resolve({
+//     status: 201,
+//     message: 'Patient details saved'
+// })
+// }).catch(err =>{ 
+//         reject({
+//             status: 500,
+//             message: 'Internal Server Error !'
+//         });
+// });
+
+// })
+// }

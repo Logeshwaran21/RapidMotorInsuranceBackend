@@ -18,7 +18,7 @@ exports.Policyrules = (policyId,policydate_date,provider,rules) => {
    console.log("enter chain func");
     var newPolicy = {TransactionDetails:{
         "userId":policyId,
-        "transactionstring":newpage.id
+        "transactionstring":newpage
 
 
 

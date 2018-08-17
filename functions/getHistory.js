@@ -1,11 +1,11 @@
 var bcSdk = require('../fabcar/query');
-<<<<<<< HEAD
-const user = require('../models/patientdetails');
 
-=======
+//const user = require('../models/patientdetails');
+
+
 const user = require('../models/patientData');
 //const user = require('../models/fetchdata');
->>>>>>> 9b7a33b7e1bb36415c4bde996d1ea214405b45cc
+
 
        
         exports.getHistory = (userId) => {

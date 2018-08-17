@@ -70,7 +70,7 @@ router.post('/submitClaim', cors(), function(req, res) {
 
     var conditions = req.body.patientData;
     var HospitalName = req.body.HospitalName;
-    var submitID = " ";
+   var submitID = "";
     var status = req.body.status;
     var TotalClaimedAmount = req.body.TotalClaimedAmount;
     var possible = "0123456789674736728367382772898366377267489457636736273448732432642326734"

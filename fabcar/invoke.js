@@ -43,6 +43,7 @@ function savetransaction(params) {
         return;
     }).then(() => {
         TransactionDetails = params.TransactionDetails;
+      
         console.log("userId123...>>>>", TransactionDetails.userId)
 
         var str = JSON.stringify(TransactionDetails.transactionstring)

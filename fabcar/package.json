@@ -9,7 +9,7 @@
   "dependencies": {
     "crypto": "^1.0.1",
     "cryptr": "^4.0.0",
-    "fabric-ca-client": "^1.0.2",
+    "fabric-ca-client": "^1.2.1",
     "fabric-client": "^1.0.2",
     "file-encryptor": "^0.1.1",
     "grpc": "^1.6.0",
