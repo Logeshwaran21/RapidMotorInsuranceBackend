@@ -2,7 +2,7 @@
 const Pateint = require('../models/patientData');
 var bcSdk = require('../fabcar/invoke')
 
-exports.createContract =(conditions,HospitalName,submitID,status,TotalClaimedAmount) =>{
+exports.createContract =(conditions,HospitalName,submitID,status,claimAmount) =>{
 
  return    new Promise((resolve, reject) => {
         console.log("conditions==================>",conditions)
@@ -12,7 +12,7 @@ exports.createContract =(conditions,HospitalName,submitID,status,TotalClaimedAmo
                 "submitID":submitID,
                // "userId":submitID,
                 "status":status,
-                "TotalClaimedAmount":TotalClaimedAmount,
+                "TotalClaimedAmount":claimAmount,
                   created_at: new Date()
                 });
                 

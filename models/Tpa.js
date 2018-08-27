@@ -24,7 +24,7 @@ const TpaSchema = mongoose.Schema({
 
 mongoose.Promise = global.Promise;
 
-mongoose.connect('mongodb://EHRTeam:EHRTeam1@ds139920.mlab.com:39920/ehr', { useMongoClient: true });
+mongoose.connect('mongodb://risabhsharma71:Rpqb123@ds111420.mlab.com:11420/care4u', { useMongoClient: true });
 
 
 module.exports = mongoose.model('Tpa', TpaSchema);

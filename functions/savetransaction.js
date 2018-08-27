@@ -50,7 +50,7 @@ exports.evaluate = (expression) => {
  
  bcSdk.evaluvate(expression).then((result) => resolve({
     status: 201,
-    message: 'eveluvated sucessfully !',
+    message: 'evaluated sucessfully !',
     result:result
 })).catch(err => {
             if (err.code == 11000) {

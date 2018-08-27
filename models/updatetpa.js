@@ -6,10 +6,11 @@ const Schema = mongoose.Schema;
 
 const tpa1Schema = mongoose.Schema({
     
-   // userid: String,
-
-    transactionstring : Object,
-    requestid: String
+    submitID: String, 
+    status:String,
+    message: String,
+    AmountPayerWouldPay:String,
+    AmountuserHavetopay:String
 });
 
 
