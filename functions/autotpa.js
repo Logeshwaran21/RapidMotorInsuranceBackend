@@ -1,5 +1,6 @@
 'use strict';
 var Patient = require('../models/Tpa');
+<<<<<<< HEAD
 //var hold = require('../models/hold');
 var bcSdk = require('../fabcar/invoke')
 
@@ -84,6 +85,16 @@ exports.autotpa =(NAME, AGE, DOA, REF_DOC, IPD_No, MLC, SEX, DOD, DAIGONIS, Chei
             "Follow_Up_Visit": Follow_Up_Visit,
             "Procedure_done":Procedure_done,
               "policyId":policyId,
+=======
+var bcSdk = require('../fabcar/invoke')
+
+exports.autotpa =(conditions,HospitalName,submitID,status,claimamount,claimAmount) =>{
+
+ return new Promise((resolve, reject) => {
+        console.log("conditions==================>",conditions)
+        var data = new Patient({
+            "patientData": conditions,
+>>>>>>> c20a0b299b30e21d75daf1e174b20316b54a56d3
             "HospitalName": HospitalName,
             "status": "Auto approved",
             "submitID": submitID,
@@ -94,6 +105,7 @@ exports.autotpa =(NAME, AGE, DOA, REF_DOC, IPD_No, MLC, SEX, DOD, DAIGONIS, Chei
 
             created_at: new Date()
         });
+<<<<<<< HEAD
         data.save()
         var ldata  = {updatedetails:{
                    
@@ -112,6 +124,25 @@ exports.autotpa =(NAME, AGE, DOA, REF_DOC, IPD_No, MLC, SEX, DOD, DAIGONIS, Chei
     })
               
     
+=======
+                console.log("discharge summary====================>",data)
+                var ldata  = {updatedetails:{
+                   
+                    "userId":submitID,
+                    "transactionstring":data
+                   
+                    }}
+             
+                data.save()
+               
+                .then(
+                    bcSdk.updatetransaction(ldata))
+    
+            .then(() => resolve({
+                status: 201,
+                message: 'Patient details saved'
+            }))
+>>>>>>> c20a0b299b30e21d75daf1e174b20316b54a56d3
 
             .catch(err =>{ 
 
@@ -132,4 +163,8 @@ exports.autotpa =(NAME, AGE, DOA, REF_DOC, IPD_No, MLC, SEX, DOD, DAIGONIS, Chei
  });
 
         })
+<<<<<<< HEAD
     }
+=======
+    }
+>>>>>>> c20a0b299b30e21d75daf1e174b20316b54a56d3

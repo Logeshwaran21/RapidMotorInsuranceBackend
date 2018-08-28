@@ -36,5 +36,12 @@ const patientDataSchema = mongoose.Schema({
     
 });
 mongoose.Promise = global.Promise;
+<<<<<<< HEAD
 mongoose.connect('mongodb://EHRTeam:EHRTeam1@ds139920.mlab.com:39920/ehr', { useMongoClient: true });
+=======
+
+mongoose.connect('mongodb://risabhsharma71:Rpqb123@ds111420.mlab.com:11420/care4u', { useMongoClient: true });
+
+
+>>>>>>> c20a0b299b30e21d75daf1e174b20316b54a56d3
 module.exports = mongoose.model('patientData', patientDataSchema);

@@ -2,7 +2,11 @@
 const Pateint = require('../models/patientData');
 var bcSdk = require('../fabcar/invoke')
 
+<<<<<<< HEAD
 exports.createContract =(NAME, AGE, DOA, REF_DOC, IPD_No, MLC, SEX, DOD, DAIGONIS, Cheif_Complaints_On_Admission, Past_History_with_Allergy, Personal_History, Family_History, Menstrual_History, Obstretric_History, Genral_Examination, Systematic_Examination, Investigations, BaBys_Details, Course_in_Hospital_And_condition, Treatment_Given, Treatment_Adviced, Follow_Up_Visit, Procedure_done, HospitalName, submitID, status, claimAmount, policyId) =>{
+=======
+exports.createContract =(conditions,HospitalName,submitID,status,claimAmount) =>{
+>>>>>>> c20a0b299b30e21d75daf1e174b20316b54a56d3
 
  return    new Promise((resolve, reject) => {
         // console.log("conditions==================>",conditions)
@@ -35,7 +39,11 @@ exports.createContract =(NAME, AGE, DOA, REF_DOC, IPD_No, MLC, SEX, DOD, DAIGONI
                  "HospitalName":HospitalName,
                 "submitID":submitID,
                 "status":status,
+<<<<<<< HEAD
                 "claimAmount":claimAmount,
+=======
+                "TotalClaimedAmount":claimAmount,
+>>>>>>> c20a0b299b30e21d75daf1e174b20316b54a56d3
                   created_at: new Date()
                 });
                 

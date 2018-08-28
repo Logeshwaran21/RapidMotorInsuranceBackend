@@ -8,8 +8,15 @@ const getpatientdetails = require('./functions/getpatientdetails');
 var validate = require("./functions/validate.js");
 const getHistory = require('./functions/getHistory');
 const updatetpa = require('./functions/updatetpa');
+
 const tpaapproval= require('./functions/tpaapproval');
 const autotpa = require('./functions/autotpa');
+const updatetransaction = require('./functions/updatetransaction');
+const savetransaction = require('./functions/savetransaction');
+const autotpa = require('./functions/autotpa');
+//const readIndex = require('./functions/readIndex');
+//const providerContract = require('./functions/provider');
+
 const createpolicy = require('./functions/policy1');
 const getpolicy1 = require('./functions/getpolicy1');
 const savetransaction = require('./functions/savetransaction');
@@ -194,7 +201,11 @@ module.exports = router => {
 
     //===================retrieveClaim=================================================// 
 
+		getpatientdetails
+			.getpatientdetails(startKey, endKey)
+			.then(function (result) {
 
+<<<<<<< HEAD
     router.post('/retrieveClaim', (req, res) => {
         console.log("requ...123>>>ui>>>", req.body);
         const userId = req.body.userId;
@@ -216,9 +227,51 @@ module.exports = router => {
                 status: err.status
             }));
     })
+=======
+				console.log("  result.query1234..>>>", result.query);
+				console.log("  result.querykey..>>>", result.query.Key);
+				res.status(result.status).json({
+					message: result.query
+				})
+			})
+			.catch(err => res.status(err.status).json({
+				message: err.message
+			}));
 
 
+	});
 
+
+	router.post('/updatetransaction', cors(), (req, res) => {
+
+		console.log("entering in to the update trans.....ui", req.body);
+
+		var body = req.body
+		var userId = body.id;
+		var transactionstring = body.transactionstring;
+
+
+		console.log("entering in to the upda trans", userId, transactionstring);
+
+>>>>>>> c20a0b299b30e21d75daf1e174b20316b54a56d3
+
+		updatetransaction.updatetransaction(userId, transactionstring)
+
+
+<<<<<<< HEAD
+=======
+			.then(result => {
+				if (!userId) {
+					res
+						.status(400)
+						.json({
+							message: 'Invalid Request !'
+						});
+				} else {
+					res.send({
+						"message": result.message,
+						"status": true
+>>>>>>> c20a0b299b30e21d75daf1e174b20316b54a56d3
 
     router.post('/autoapproveclaim', cors(), (req, res) => {
         var submitID = req.body.submitID;
@@ -227,6 +280,7 @@ module.exports = router => {
         var AmountuserHavetopay = req.body.AmountuserHavetopay;
         var AmountPayerWouldPay = req.body.AmountPayerWouldPay;
 
+<<<<<<< HEAD
         updatetpa.updatetpa(submitID, status, message, AmountuserHavetopay, AmountPayerWouldPay)
             .then(result => {
                 console.log(result)
@@ -244,13 +298,35 @@ module.exports = router => {
 
             })
     });
+=======
+					});
+				}
+			})
+>>>>>>> c20a0b299b30e21d75daf1e174b20316b54a56d3
 
+			.catch(err => res.status(err.status).json({
+				message: err.message
+			}).json({
+				status: err.status
+			}));
 
+	});
 
+	router.post('/patientdetails', cors(), (req, res) => {
+		console.log("body========>", req.body)
+		const userId = req.body.userId;
+		console.log("userId", userId);
+		var transactionstring = req.body.transactionstring;
+		console.log("line number 212-------->", transactionstring)
 
+<<<<<<< HEAD
     router.get("/RetrieveBulkPatientRecords", cors(), (req, res) => {
+=======
+>>>>>>> c20a0b299b30e21d75daf1e174b20316b54a56d3
 
+		savetransaction.savetransaction(userId, transactionstring)
 
+<<<<<<< HEAD
         var startKey = '000';
         console.log("startKey", startKey);
         var endKey = '999';
@@ -412,3 +488,193 @@ module.exports = router => {
             }));
     });
 }
+=======
+			.then(result => {
+
+				console.log(result);
+				res.send({
+					"message": result.message,
+					// "requestid": requestid,
+					"status": true
+
+
+				});
+			})
+
+			.catch(err => res.status(err.status).json({
+				message: err.message
+			}).json({
+				status: err.status
+			}));
+
+	});
+	router.post('/createpolicy', cors(),async function(req, res) {
+
+
+		var policys = req.body;
+		console.log("UI",policys);
+		var policyID = policys.policyID;
+		var rulesids = [];
+		for (var i = 0; i < policys.rules.length; i++) {
+ 
+			var expression = policys.rules[i];
+		console.log("expression",expression);
+ 
+		var TransactionDetails = {"userid":"1",
+		"transactionstring":{
+			"exp":policys.rules[i],
+			"value":"",
+			"params":"",
+			"function":"validateExpression"
+		}
+		}
+	   var res1=await savetransaction.evaluate(TransactionDetails)
+	   console.log("res1",res1)
+ 
+			if(res1.result=="Valid")
+			{
+			var idasdd = "E" + uniqid();
+			var idsObj = {
+				"id":idasdd,
+				"expression":policys.rules[i],
+				  created_at: new Date()
+				}
+			console.log("idasdd",idasdd,idsObj);
+			rulesids.push(idasdd);
+ 
+			await createpolicy.policy1(idasdd,policys.rules[i])
+				.then(result => {
+					console.log("SADASD",result);
+				}).catch(err => res.status(err.status).json({
+					message: err.message
+				}))
+ 
+ 
+ console.log("7",rulesids);
+ policys.rules = rulesids;
+ console.log("5");
+ var policyObj = {
+		"policyID":policys.policyID,
+		"policys":policys,
+		  created_at: new Date()
+		}
+ createpolicy.policy1(policyID, policyObj)
+	.then(result => {
+		res.status(result.status).json({
+			message: result.message
+		});
+	})
+	.catch(err => res.status(err.status).json({
+		message: err.message
+	}))
+ }
+ else{
+	res.send({"message":res1.result,"comments":"please enter a valid expression"
+})
+ }
+ }
+ });
+	// router.post('/createpolicy', cors(), async function (req, res) {
+
+
+	// 	var policys = req.body;
+	// 	console.log("UI", policys);
+	// 	var policyID = policys.policyID;
+	// 	var rulesids = [];
+	// 	for (var i = 0; i < policys.rules.length; i++) {
+	// 		var idasdd = "E" + uniqid();
+	// 		var idsObj = {
+	// 			"id": idasdd,
+	// 			"expression": policys.rules[i],
+	// 			created_at: new Date()
+	// 		}
+	// 		console.log("idasdd", idasdd, idsObj);
+	// 		rulesids.push(idasdd);
+
+	// 		await createpolicy.policy1(idasdd, policys.rules[i])
+	// 			.then(result => {
+	// 				console.log("SADASD", result);
+	// 			}).catch(err => res.status(err.status).json({
+	// 				message: err.message
+	// 			}))
+	// 	}
+	// 	console.log("7", rulesids);
+	// 	policys.rules = rulesids;
+	// 	console.log("5");
+	// 	var policyObj = {
+	// 		"policyID": policys.policyID,
+	// 		"policys": policys,
+	// 		created_at: new Date()
+	// 	}
+	// 	createpolicy.policy1(policyID, policyObj)
+	// 		.then(result => {
+	// 			res.status(result.status).json({
+	// 				message: result.message
+	// 			});
+	// 		})
+	// 		.catch(err => res.status(err.status).json({
+	// 			message: err.message
+	// 		}))
+	// });
+
+	router.post("/retrieveContract", cors(), (req, res) => {
+
+
+		console.log("requ...123>>>ui>>>", req.body);
+		const userId = req.body.userId;
+		//  console.log("userId", userId);
+
+
+		getpolicy1.getpolicy1(userId)
+			.then(result => {
+				console.log("result....123>>>", result);
+				res.status(result.status).json({
+					result: result.docs,
+
+				})
+			})
+
+			.catch(err => res.status(err.status).json({
+				message: err.message
+			}).json({
+				status: err.status
+			}));
+	})
+
+	router.post('/evaluateExpression', cors(), (req, res) => {
+		var expression = req.body.expression;
+		var params = req.body.params;
+		var TransactionDetails = {
+			"userid": "1",
+			"transactionstring": {
+				"exp": req.body.expression,
+				"value": req.body.value,
+				"params": req.body.params,
+				"function":"validatefunc"
+
+			}
+		}
+		savetransaction.evaluate(TransactionDetails)
+			.then(function (result) {
+				console.log(result)
+
+				res.send(result);
+			}).catch(err => res.status(err.status).json({
+				message: err.message
+			}));
+	});
+	router.post('/validateExpression', cors(), (req, res) => {
+		var expression = req.body.expression;
+		
+		var TransactionDetails = {"userid":"1",
+		"transactionstring":{"exp":req.body.expression, "value":"","params":"", "function":"validateExpression"}}
+		savetransaction.evaluate(TransactionDetails)
+			.then(function(result) {
+				console.log(result)
+				res.send(result);
+			}).catch(err => res.status(err.status).json({
+				message: err.message
+			}));
+		});
+ }
+>>>>>>> c20a0b299b30e21d75daf1e174b20316b54a56d3
