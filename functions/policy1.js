@@ -16,7 +16,7 @@ exports.policy1 =(policyID,policys) =>{
                 console.log(response)
                 resolve({
                 status: 201,
-                message: 'Policy details saved'
+                message: 'Contract details saved'
             })
         }).catch(err =>{ 
                     reject({

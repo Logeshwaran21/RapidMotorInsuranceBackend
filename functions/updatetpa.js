@@ -6,63 +6,51 @@ const tpaupdate= require('../models/updatetpa')
 
 
 
-exports.updatetpa=(userId,transactionstring)=>{
+exports.updatetpa=(submitID,status,message,AmountuserHavetopay,AmountPayerWouldPay)=>{
 
     return new Promise((resolve,reject)=>{
-        const newupdate = new tpaupdate({
+        var newupdate = new tpaupdate({
 
-            userId: userId, 
-            transactionstring:transactionstring
+            "submitID": submitID, 
+            "status":status,
+            "message": message,
+            "AmountPayerWouldPay":AmountPayerWouldPay,
+            "AmountuserHavetopay":AmountuserHavetopay
+
         })
+        var data3  = {updatedetails:{
+                   
+            "userId":submitID,
+            "transactionstring":newupdate
+           
+            }}
+     
+console.log("data3===>",data3);
         newupdate.save()
-        .then((result) => resolve({status: 201, message: 'success'}))
-        .catch(err => {
+        .then(
+            bcSdk.updatetransaction(data3))
+            .then(() => resolve({
+                status: 201,
+                message: 'Patient details saved'
+            }))
 
-            if (err.code == 11000) {
+            .catch(err =>{ 
 
-                reject({status: 409, message: 'already they are having insurance application!'});
+                if (err.code == 11000) {
 
-            } else {
-
-                reject({status: 500, message: 'Internal Server Error !'});
-            }
-
-            var str=JSON.stringify(transferObj)
-       
-            if(status == "Rejected"){
-                new Promise(async(resolve,reject)=>{
-                if(HospitalName=="Apollo"){
-                    console.log("Appollo TPAupdate");
-
-                    // AddressOfProvider="MALSD5RR7YN4YSFTQWOLJURZ2OINSME4GD5RBHZJ"
+                    reject({
+                        status: 409,
+                        message: 'User Already Registered !'
+                    });
+    
+                } else {
+    
+                    reject({
+                        status: 500,
+                        message: 'Internal Server Error !'
+                    });
                 }
-                if(HospitalName=="Fortis")
-                {
-                    console.log("Fortis TPAupdate");
+ });
 
-                }
-               
-
-                if(status == "Approved"){
-                    new Promise(async(resolve,reject)=>{
-                  
-                       if(HospitalName=="Apollo"){
-                       }
-                       if(HospitalName=="Fortis"){
-                       }
-
-
-                       return   resolve({"status":200,
-                       "message":"approved"})
-               })
-                   }
-                 return  resolve({"status":200,
-               "messsage":"object updated"})
-
-               }).catch(err=>{console.log(err)})
-            }
-           })
-           })
-        };
-
-
+        })
+    }

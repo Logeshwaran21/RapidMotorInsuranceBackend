@@ -6,7 +6,7 @@ var options = {
     wallet_path: path.join(__dirname, './creds'),
     user_id: 'PeerAdmin',
     channel_id: 'mychannel',
-    chaincode_id: 'Kare4u_6',
+    chaincode_id: 'Kare4u_8',
     peer_url: 'grpc://localhost:7051',
     event_url: 'grpc://localhost:7053',
     orderer_url: 'grpc://localhost:7050'
@@ -160,7 +160,7 @@ function savetransaction(params) {
 
 }
 
-function evaluvate(exp) {
+function evaluvate(params) {
     var TransactionDetails;
 
   return  Promise.resolve().then(() => {
@@ -187,7 +187,7 @@ function evaluvate(exp) {
         return;
     }).then(() => {
      //   TransactionDetails = params.TransactionDetails;
-        console.log("userId123...>>>>", exp)
+        console.log("userId123...>>>>", params)
         tx_id = client.newTransactionID();
         console.log("Assigning transaction_id: ", tx_id._transaction_id);
         // createCar - requires 5 args, ex: args: ['CAR11', 'Honda', 'Accord', 'Black', 'Tom'],
@@ -196,8 +196,8 @@ function evaluvate(exp) {
        // console.log("Assigning transaction_id: ", exp.exp,JSON.stringify(exp.params),JSON.stringify(exp.key));
         var request = {
             chaincodeId: options.chaincode_id,
-            fcn: 'validatefunc',
-            args: [exp.transactionstring.exp,JSON.stringify(exp.transactionstring.value),JSON.stringify(exp.transactionstring.params)],
+            fcn: params.transactionstring.function,
+            args: [params.transactionstring.exp,JSON.stringify(params.transactionstring.value),JSON.stringify(params.transactionstring.params)],
             txId: tx_id
         };
         return channel.queryByChaincode(request);
@@ -367,3 +367,6 @@ module.exports = {
     evaluvate:evaluvate
     
 };
+
+
+
