@@ -6,7 +6,11 @@ var options = {
     wallet_path: path.join(__dirname, './creds'),
     user_id: 'PeerAdmin',
     channel_id: 'mychannel',
+<<<<<<< HEAD
     chaincode_id: 'Kare4u_17',
+=======
+    chaincode_id: 'Kare4u_8',
+>>>>>>> 25136fda848ba80d4b51a8aa57736911df67c1f9
     peer_url: 'grpc://localhost:7051',
     event_url: 'grpc://localhost:7053',
     orderer_url: 'grpc://localhost:7050'
@@ -367,3 +371,6 @@ module.exports = {
     evaluvate:evaluvate
     
 };
+
+
+
