@@ -7,39 +7,39 @@ const user = require('../models/patientData');
 //const user = require('../models/fetchdata');
 
 
-       
-        exports.getHistory = (userId) => {
-                return new Promise((resolve, reject) => {
-            
-                   bcSdk.getHistory({
-                       userId : userId
-                       
-                        
-                   })
-            
-            
-                               .then((docs) => {
-                                   var len=docs.length;
-                                   console.log(len)
 
-                                   console.log("docs....123>>>",docs)
+exports.getHistory = (userId) => {
+    return new Promise((resolve, reject) => {
 
-                                return resolve({
-                                        status: 201,
-                                         docs:docs,                                       
-                                         
-                                    })
-                                })
-                        })
-                            
-                       .catch(err => {
-            
-                           console.log("error occurred" + err);
-            
-                           return reject({
-                                status: 500,
-                                message: 'Internal Server Error !'
-                            });
-                        })
-            
-            };
+            bcSdk.getHistory({
+                    userId: userId
+
+
+                })
+
+
+                .then((docs) => {
+                    var len = docs.length;
+                    console.log(len)
+
+                    console.log("docs....123>>>", docs)
+
+                    return resolve({
+                        status: 201,
+                        docs: docs,
+
+                    })
+                })
+        })
+
+        .catch(err => {
+
+            console.log("error occurred" + err);
+
+            return reject({
+                status: 500,
+                message: 'Internal Server Error !'
+            });
+        })
+
+};

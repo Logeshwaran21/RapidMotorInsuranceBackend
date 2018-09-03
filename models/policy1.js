@@ -15,7 +15,7 @@ const policydetailSchema = mongoose.Schema({
 
 mongoose.Promise = global.Promise;
 
-mongoose.connect('mongodb://risabhsharma71:Rpqb123@ds111420.mlab.com:11420/care4u', { useMongoClient: true });
+mongoose.connect('mongodb://bahirathy:bahirathy20@ds127851.mlab.com:27851/kare4u', { useMongoClient: true });
 
 
 module.exports = mongoose.model('policydetails1', policydetailSchema);

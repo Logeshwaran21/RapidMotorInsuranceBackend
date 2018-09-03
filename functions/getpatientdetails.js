@@ -2,50 +2,45 @@
 var bcSdk = require('../fabcar/query');
 
 
-exports.getpatientdetails = (startKey,endKey) => {
-    
-   return new Promise((resolve, reject) => {
-        console.log("startKey---",startKey);
-        console.log("endKey---",endKey);
+exports.getpatientdetails = (startKey, endKey) => {
+
+    return new Promise((resolve, reject) => {
+        console.log("startKey---", startKey);
+        console.log("endKey---", endKey);
         console.log("entering into readAllrequest function.......!")
-        
-       bcSdk
-       .getpatientdetails({
-            startKey: startKey,
-            endKey:endKey
-        })
 
-       .then((requestarray) => {
-            console.log("data in requestArray" + JSON.stringify (requestarray)) 
-            console.log("key123...",requestarray.Key)
-           return resolve({
-                status: 200,
-                query: requestarray
+        bcSdk
+            .getpatientdetails({
+                startKey: startKey,
+                endKey: endKey
             })
-        })
 
-       .catch(err => {
+            .then((requestarray) => {
+                console.log("data in requestArray" + JSON.stringify(requestarray))
+                console.log("key123...", requestarray.Key)
+                return resolve({
+                    status: 200,
+                    query: requestarray
+                })
+            })
 
-           if (err.code == 401) {
+            .catch(err => {
 
-               return reject({
-                    status: 401,
-                    message: 'cant fetch !'
-                });
+                if (err.code == 401) {
 
-           } else {
-                console.log("error occurred" + err);
+                    return reject({
+                        status: 401,
+                        message: 'cant fetch !'
+                    });
 
-               return reject({
-                    status: 500,
-                    message: 'Internal Server Error !'
-                });
-            }
-        })
+                } else {
+                    console.log("error occurred" + err);
+
+                    return reject({
+                        status: 500,
+                        message: 'Internal Server Error !'
+                    });
+                }
+            })
     })
-}; 
-
-
-
-
-
+};

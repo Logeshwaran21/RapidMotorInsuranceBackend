@@ -17,7 +17,7 @@ const registerpageSchema = mongoose.Schema({
     password: String,
     retypepassword: String,
     usertype:  String,
-    rapidID: String
+    // rapidID: String
      
 });
 
@@ -25,7 +25,7 @@ const registerpageSchema = mongoose.Schema({
 mongoose.Promise = global.Promise;
 //mongoose.connect('mongodb://localhost:27017/digitalId', { useMongoClient: true });
 
-mongoose.connect('mongodb://harini:Harini!96@ds119406.mlab.com:19406/mortgage', {
+mongoose.connect('mongodb://bahirathy:bahirathy20@ds127851.mlab.com:27851/kare4u', {
     useMongoClient: true
 });
 

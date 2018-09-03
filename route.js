@@ -1,627 +1,416 @@
 'use strict';
 
-
-//const registerUser = require('./functions/registerUser');
-const smartContract = require('./functions/smartContract');
-var crypto = require('crypto');
-var fs = require('fs');
-var cors = require('cors');
-var tpaApproval = require("./functions/Tpaapproval.js");
+var tpaApproval = require("./functions/Tpaapproval.js")
 var validate = require("./functions/validate.js");
-const contractJs = require('./functions/contract');
-const payer = require("./functions/payer");
-var bcSdk = require('./fabcar/invoke');
+const contractJs = require('./functions/contract')
+const getpatientdetails = require('./functions/getpatientdetails')
+const getHistory = require('./functions/getHistory')
+const updatetpa = require('./functions/updatetpa')
+const autotpa = require('./functions/autotpa')
+const createpolicy = require('./functions/policy1')
+const getpolicy1 = require('./functions/getpolicy1')
+const savetransaction = require('./functions/savetransaction')
+const submitdata= require('./functions/submitdata');
+var bcSdk = require('./fabcar/invoke')
 var config = require('./config.json')
-var oneday = require('./functions/oneday')
-const getpatientdetails = require('./functions/getpatientdetails');
-const Policyrules = require('./functions/Policyrules');
-const getHistory = require('./functions/getHistory');
-const updatetpa = require('./functions/updatetpa');
-const updatetransaction = require('./functions/updatetransaction');
-const savetransaction = require('./functions/savetransaction');
-//const readIndex = require('./functions/readIndex');
-//const providerContract = require('./functions/provider');
-const createpolicy = require('./functions/policy1');
-const getpolicy1 = require('./functions/getpolicy1');
-
-
-var cors = require('cors');
-var mongoose = require('mongoose');
-
-var Promises = require('promise');
-var cloudinary = require('cloudinary').v2;
-var multipart = require('connect-multiparty');
+var crypto = require('crypto')
+var fs = require('fs')
+var cors = require('cors')
+var mongoose = require('mongoose')
+var Promises = require('promise')
+var cloudinary = require('cloudinary')
+var multipart = require('connect-multiparty')
 var multipartMiddleware = multipart();
-
 var path = require('path');
 var uniqid = require('uniqid')
+var changeCase = require('change-case')
 
 
 
 module.exports = router => {
 
-//=============================================create discharge summary==============================================================//
-router.post('/providerContract', cors(), function(req, res) {
-    console.log("enter");
-    var providername = req.body.providername;
-    // var HospitalName=req.body.HospitalName;
-    var userId = req.body.providerid;
-    var clauses = req.body.clauses;
-    // var claimamount=req.body.claimamount;
-    // var claimdate = req.body.claimdate;
-    console.log("1");
-    providerContract.provider(providername, userId, clauses)
-        .then(result => {
-            res.send({
-
-                "userId": providerid,
-                "message": "Claim Details uploaded Successfully"
+    //=================================================create discharge summary==============================================================//
 
 
+    router.post('/submitClaim', cors(), async function(req, res) {
+        var submitID = "";
+        var policyId=req.body;
+        var claimAmount=req.body.claimAmount;
+        var s = req.body
+        var keys = [];
+        for (var k in s) keys.push(k);
+        var r = Object.values(s);
+        // Object.entries(s);
+        // console.log("map", Object.entries(s))
+        console.log("value", r)
+        // for (var i = 0; i < keys.length; i++){
+        //     console.log("key=========>",req.body.keys[i])
 
-            });
-
-        })
-        .catch(err => res.status(err.status).json({
-            message: err.message
-        }))
-})
-router.post('/submitClaim', cors(), function(req, res) {
-
-    var conditions = req.body.patientData;
-    var HospitalName = req.body.HospitalName;
-   var submitID = "";
-    var status = req.body.status;
-    var TotalClaimedAmount = req.body.TotalClaimedAmount;
-    var possible = "0123456789674736728367382772898366377267489457636736273448732432642326734"
-    for (var i = 0; i < 3; i++)
-
-        submitID += (possible.charAt(Math.floor(Math.random() * possible.length))).toString();
-
-
-    console.log("userId" + submitID)
-    if (!conditions || !HospitalName.trim() || !status.trim() || !TotalClaimedAmount) {
-
-        res
-            .status(400)
-            .json({
-                message: 'Please enter the details completely !'
-            });
-
-    }
-    else {
-
-    contractJs.createContract(conditions, HospitalName, submitID, status, TotalClaimedAmount)
-    .then(result => {
-        res.send({
-            "message": "Patient details saved",
-            "status": true,
+        //     if(!req.body.keys[i] && req.body.keys[i].trim()){
+        //         console.log("please fill the "+req.body.keys[i])
+        //     }else{
+        //         console.log("success")
+        //     }
+        // }
             
-            "submitID":submitID
-        });
+        var possible = "0123456789674736728367382772898366377267489457636736273448732432642326734"
+        for (var i = 0; i < 3; i++)
 
+         submitID += (possible.charAt(Math.floor(Math.random() * possible.length))).toString();
+        console.log("submitId" + submitID)
 
-              
-            })
-        .catch(err => res.status(err.status).json({
-            message: err.message
-        }))
-    }
-});
+        // if(!r || r.trim()){
+    //    if (!NAME.trim() || !AGE.trim() || !DOA.trim() || !REF_DOC.trim() || !IPD_No.trim() || !MLC || !SEX.trim() || !DOD.trim() || !DAIGONIS.trim() || !Cheif_Complaints_On_Admission.trim() || !Past_History_with_Allergy.trim() || !Personal_History.trim() || !Family_History.trim() || !Menstrual_History.trim() || !Obstretric_History.trim() || !Genral_Examination.trim() || !Systematic_Examination.trim() || !Investigations.trim() || !BaBys_Details.trim() || !Course_in_Hospital_And_condition.trim() || !Treatment_Given.trim() || !Treatment_Adviced.trim() || !Follow_Up_Visit.trim() || !Procedure_done.trim() || !HospitalName.trim() || !status.trim() || !claimAmount.trim() || !policyId.trim()) {
 
-//============================================mock weather====================================================//         
-router.post('/validate', (req, res) => {
-    console.log("requ...123>>>ui>>>", req.body);
-    const userId = req.body.userId;
-    console.log("userId", userId);
+            // res.status(400)
 
+            //     .json({
+            //         message: 'Please enter the details completely !'
+            //     });
 
-    validate.validate(userId)
-        .then(result => {
-            console.log("result....123>>>", result);
-            res.status(result.status).json({
-                result: result.docs,
+        //  } else {
 
-            })
-        })
-
-        .catch(err => res.status(err.status).json({
-            message: err.message
-        }).json({
-            status: err.status
-        }));
-})
-
-//=================validateClaim=========================================//
-router.post('/validateClaim', cors(), async function (req, res)  {
-    //console.log("requ...123>>>ui>>>",req.body);
-    var userId = req.body.policyId;
-    console.log("userId", userId);
-    var exp = [];
-    var rs=[];
-     var result = await validate.validate(userId)
-    console.log("re",result)
-          for (var i = 0; i < result.docs[0].Records.policys.rules.length; i++) {
+            await contractJs.createContract(keys,s,submitID,policyId)
+            //(NAME, AGE, HospitalName, DOA, REF_DOC, IPD_No, MLC, SEX, DOD, DAIGONIS, Cheif_Complaints_On_Admission, Past_History_with_Allergy, Personal_History, Family_History, Menstrual_History, Obstretric_History, Genral_Examination, Systematic_Examination, Investigations, BaBys_Details, Course_in_Hospital_And_condition, Treatment_Given, Treatment_Adviced, Follow_Up_Visit, Procedure_done, submitID, status, claimAmount, policyId)
+            var userId = req.body.policyId;
+            console.log("userId", userId);
+            var exp = [];
+            var rs = [];
+            var result = await validate.validate(userId)
+            console.log("re", result)
+            for (var i = 0; i < result.docs[0].Records.policys.rules.length; i++) {
                 console.log("re", result.docs[0].Records.policys.rules[i]);
-        var userId = result.docs[0].Records.policys.rules[i];
-            console.log("userid", userId);
-     var result1 = await validate.validate(userId)
-     console.log("result....123>>>", result1.docs[0].Records);
-        var expression = result1.docs[0].Records;
-                        console.log("expression", expression);
-                        var params = req.body.params;
-                        console.log("params", params);
-                        var TransactionDetails = {
-                            "userid": "1",
-                            "transactionstring": {
-                                "exp": result1.docs[0].Records,
-                                "value": req.body.value,
-                                "params": req.body.params
-                            }
-                        }
-                        
-                    
-                        var result2= await savetransaction.evaluate(TransactionDetails)
-                        rs.push(result2);
-                        console.log(rs);
+                var userId = result.docs[0].Records.policys.rules[i];
+                console.log("userid", userId);
+                var result1 = await validate.validate(userId)
+                console.log("result....123>>>", result1.docs[0].Records);
+                var expression = result1.docs[0].Records;
+                console.log("expression", expression);
+                                var TransactionDetails = {
+                    "userid": "1",
+                    "transactionstring": {
+                        "exp": result1.docs[0].Records,
+                        "value": Object.values(s),
+                        "params": keys,
+                        "function": "validatefunc"
+                    }
+                }
+
+                var result2 = await savetransaction.evaluate(TransactionDetails)
+                rs.push(result2);
+                console.log("result", rs[0].result);
+                var claimamount = rs[0].result;
             }
-        res.send(rs)
-           
+            console.log("claimamt",claimAmount)
+            await autotpa.autotpa(keys,s,claimamount,claimAmount,submitID)
 
-
-})
-//=========================================================================//
-
-router.post('/Policy', (req, res) => {
-    const policyId = req.body.policyId;
-    const policydate_date = req.body.policydate_date;
-    const provider = req.body.provider;
-    var rules = req.body.rules;
-    console.log("PolicyId", policyId);
-    console.log("policydate_date", policydate_date);
-    console.log("provider", provider);
-    console.log("rules", rules);
-
-
-    Policyrules.Policyrules(policyId, policydate_date, provider, rules)
-        .then(result => {
-
-            res.status(200).json({
-                message: "conditions satisfied for the users below"
-            });
-
-        }).catch(err => res.status(err.status).json({
-            message: err.message
-        }))
-});
-
-
-
-
-router.get('/validate', cors(), function(req, res) {
-
-    // var HospitalName= req.body.HospitalName;
-    var jsonfile = require('jsonfile')
-    var file = './payer_provider.json'
-    jsonfile.readFile(file, function(err, obj) {
-        if (err) {
             res.send({
-                "code": 404,
-                "message": "no contract created yet",
-                "error": err
+                "submitID": submitID,
+                rs
             })
+        // }
+
+
+    });
+
+
+    //========================================validateClaim=========================================//
+
+    router.post('/validateClaim', cors(), async function(req, res) {
+
+        var userId = req.body.policyId;
+        console.log("userId", userId);
+        var exp = [];
+        var rs = [];
+        var result = await validate.validate(userId)
+        console.log("re", result)
+        for (var i = 0; i < result.docs[0].Records.policys.rules.length; i++) {
+            console.log("re", result.docs[0].Records.policys.rules[i]);
+            var userId = result.docs[0].Records.policys.rules[i];
+            console.log("userid", userId);
+            var result1 = await validate.validate(userId)
+            console.log("result....123>>>", result1.docs[0].Records);
+            var expression = result1.docs[0].Records;
+            console.log("expression", expression);
+            var params = req.body.params;
+            console.log("params", params);
+            var expRep = expression.replace(/[^a-zA-Z ]/g, "")
+            var expArr = expRep.split(" ")
+            var duplicateParams = expArr.filter(Boolean)
+            var params = []
+            for (let i = 0; i < duplicateParams.length; i++) {
+                if (params.indexOf(duplicateParams[i]) == -1) {
+                    params.push(duplicateParams[i])
+                }
+            }
+            console.log(params)
+            var TransactionDetails = {
+                "userid": "1",
+                "transactionstring": {
+                    "exp": result1.docs[0].Records,
+                    "value": req.body.value,
+                    "params": params,
+                    "function": "validatefunc"
+                }
+            }
+
+
+            var result2 = await savetransaction.evaluate(TransactionDetails)
+            rs.push(result2);
+            console.log(rs);
         }
+        res.send(rs)
 
 
-        smartContract.mock(obj)
+    })
+
+    //=====================Status Settlement==========================================================//
+
+    router.get('/StatusSettlement', cors(), function(req, res) {
+
+        tpaApproval.mock()
             .then(result => {
                 console.log(result)
-                res.status(200).json({
-                    message: "conditions satisfied for the users below"
+                res.status(result.status).json({
+                    patients: result.patients
                 });
 
             }).catch(err => res.status(err.status).json({
                 message: err.message
             }))
-    })
-
-
-});
-
-
-
-
-//==========================Tpa=====================================================================//
-router.get('/StatusSettlement', cors(), function(req, res) {
-
-    tpaApproval.mock()
-        .then(result => {
-            console.log(result)
-            res.status(result.status).json({
-                patients: result.patients
-            });
-
-        }).catch(err => res.status(err.status).json({
-            message: err.message
-        }))
-});
-
-//===========================tpa changing status=========================================================//
-router.post('/Tpaupdate', cors(), function(req, res) {
-    var status = req.body.status;
-    var id = req.body.id;
-    var message = req.body.message;
-
-    tpaNem.mocknem(status, id, message)
-        .then(result => {
-            console.log(result)
-            res.status(200).json({
-                message: "dataset triggered "
-            });
-        }).catch(err => res.status(err.status).json({
-            message: err.message
-        }))
-});
-
-//====================================payer page=============================================//
-router.get('/payerpay', cors(), function(req, res) {
-
-    payer.mock()
-        .then(result => {
-            console.log(result)
-            res.status(result.status).json({
-                patients: result.message
-            });
-
-        }).catch(err => res.status(err.status).json({
-            message: err.message
-        }))
-});
-//=======================================fortis dashboard api====================================================//
-router.post("/HospitalDashboard", cors(), function(req, res) {
-    var HospitalName = req.body.HospitalName;
-    Hospital.DashBoard(HospitalName).then(reports => {
-        res.send({
-            "status": 200,
-            "patients": reports.message
-        })
-    })
-})
-
-//=========================================24hrs trigger===============================================//
-router.get("/24hrs", cors(), (req, res) => {
-    oneday.oneday().then((results) => {
-        console.log(results)
-        res.send({
-            "status": 200,
-            "message": results.message
-        })
-    })
-})
-//===============================history api==============================================================//
-router.post("/history", cors(), (req, res) => {
-    var id = req.body.id
-    recordHistory.history(id).then(result => {
-
-        console.log(result)
-        res.status(result.status).json({
-            history: result.message
-        });
-
-    }).catch(err => res.status(err.status).json({
-        message: err.message
-    }))
-});
-//=================update discharge summary=======================================//
-router.post("/updateDischargeSummary", cors(), (req, res) => {
-    var id = req.body.id
-    updateDischargeSummary.update(id).then(result => {
-
-        console.log(result)
-        res.status(result.status).json({
-            history: result.message
-        });
-
-    }).catch(err => res.status(err.status).json({
-        message: err.message
-    }))
-});
-
-
-
-
-router.post('/patientdetails', cors(), (req, res) => {
-    console.log("body========>", req.body)
-    const userId = req.body.userId;
-    console.log("userId", userId);
-    var transactionstring = req.body.transactionstring;
-    console.log("line number 212-------->", transactionstring)
-
-
-
-    savetransaction.savetransaction(userId, transactionstring)
-
-        .then(result => {
-
-            console.log(result);
-            res.send({
-                "message": result.message,
-                // "requestid": requestid,
-                "status": true
-
-
-            });
-        })
-
-        .catch(err => res.status(err.status).json({
-            message: err.message
-        }).json({
-            status: err.status
-        }));
-
-});
-
-
-router.post('/getHistory', (req, res) => {
-    console.log("requ...123>>>ui>>>", req.body);
-    const userId = req.body.userId;
-    console.log("userId", userId);
-
-
-    getHistory.getHistory(userId)
-        .then(result => {
-            console.log("result....123>>>", result);
-            res.status(result.status).json({
-                result: result.docs,
-
-            })
-        })
-
-        .catch(err => res.status(err.status).json({
-            message: err.message
-        }).json({
-            status: err.status
-        }));
-})
-
-
-router.post('/savetransaction', cors(), (req, res) => {
-    var name = req.body.name;
-    var transactionstring = JSON.stringfy(req.body.transactionstring);
-    var requestid = req.body.requestid;
-
-    savetransaction
-        .savetransaction(name, transactionstring, requestid)
-        .then(function(result) {
-            console.log(result)
-
-            res.send({
-
-                message: "entered successfully"
-            });
-        })
-        .catch(err => res.status(err.status).json({
-            message: err.message
-        }));
-
-
-});
-
-router.post('/updatetpa', cors(), (req, res) => {
-    var userId = req.body.userId;
-    var transactionstring = req.body.transactionstring;
-    updatetpa.updatetpa(userId, transactionstring)
-        .then(result => {
-            console.log(result)
-            res.status(200).json({
-                message: "dataset triggered "
-            });
-        }).catch(err => res.status(err.status).json({
-            message: err.message
-        }))
-
-
-    updatetransaction
-        .updatetransaction(userId, transactionstring)
-        .then(result => {
-            console.log("result....", result)
-
-        })
-});
-
-
-
-router.post("/HospitalDashboard", cors(), function(req, res) {
-    var HospitalName = req.body.HospitalName;
-    Hospital.DashBoard(HospitalName).then(reports => {
-        res.send({
-            "status": 200,
-            "patients": reports.message
-        })
-    })
-})
-
-
-
-
-router.get("/RetrieveBulkPatientRecords", cors(), (req, res) => {
-
-
-    var startKey = '000';
-    console.log("startKey", startKey);
-    var endKey = '999';
-    console.log("endKey--", endKey);
-
-    getpatientdetails
-        .getpatientdetails(startKey, endKey)
-        .then(function(result) {
-
-            console.log("  result.query1234..>>>", result.query);
-            console.log("  result.querykey..>>>", result.query.Key);
-            res.status(result.status).json({
-                message: result.query
-            })
-        })
-        .catch(err => res.status(err.status).json({
-            message: err.message
-        }));
-
-
-});
-
-
-
-
-router.post('/updatetransaction', cors(), (req, res) => {
-
-    console.log("entering in to the update trans.....ui", req.body);
-
-    var body = req.body
-    var userId = body.id;
-    var transactionstring = body.transactionstring;
-
-
-    console.log("entering in to the upda trans", userId, transactionstring);
-
-
-
-    updatetransaction.updatetransaction(userId, transactionstring)
-
-
-        .then(result => {
-            if (!userId) {
-                res
-                    .status(400)
-                    .json({
-                        message: 'Invalid Request !'
-                    });
-            } else {
-                res.send({
-                    "message": result.message,
-                    "status": true
-
-
+    });
+//==============================waitingforapproval================================================//
+ router.get('/waitingforapproval', cors(), function(req, res) {
+
+        submitdata.mocks()
+            .then(result => {
+                console.log(result)
+                res.status(result.status).json({
+                    patients: result.patients
                 });
-            }
-        })
 
-        .catch(err => res.status(err.status).json({
-            message: err.message
-        }).json({
-            status: err.status
-        }));
+            }).catch(err => res.status(err.status).json({
+                message: err.message
+            }))
+    });
 
-});
+    //============================================RetrieveClaim===============================================//
 
-router.post('/patientdetails', cors(), (req, res) => {
-    console.log("body========>", req.body)
-    const userId = req.body.userId;
-    console.log("userId", userId);
-    var transactionstring = req.body.transactionstring;
-    console.log("line number 212-------->", transactionstring)
+    router.post('/retrieveClaim', (req, res) => {
+
+        console.log("request UI>>>ui>>>", req.body);
+        const userId = req.body.userId;
+        console.log("userId", userId);
+
+        getHistory.getHistory(userId)
+            .then(result => {
+                console.log("result....123>>>", result);
+                res.status(result.status).json({
+                    result: result.docs,
+
+                })
+            })
+            .catch(err => res.status(err.status).json({
+                message: err.message
+            }).json({
+                status: err.status
+            }));
+    })
+
+
+    //======================================AutoApproveClaim===============================================//
+
+    router.post('/autoapproveclaim', cors(), (req, res) => {
+        var submitID = req.body.submitID;
+        var status = req.body.status;
+        var message = req.body.message;
+        var AmountuserHavetopay = req.body.AmountuserHavetopay;
+        var AmountPayerWouldPay = req.body.AmountPayerWouldPay;
+
+        updatetpa.updatetpa(submitID, status, message, AmountuserHavetopay, AmountPayerWouldPay)
+            .then(result => {
+                console.log(result)
+                res.status(200).json({
+                    message: "Details updated successfully"
+                });
+            }).catch(err => res.status(err.status).json({
+                message: err.message
+            }))
 
 
 
-    savetransaction.savetransaction(userId, transactionstring)
+            .then(result => {
+                console.log("result....", result)
 
-        .then(result => {
-
-            console.log(result);
-            res.send({
-                "message": result.message,
-                // "requestid": requestid,
-                "status": true
+            })
+    });
 
 
-            });
-        })
+    //======================================RetrieveBulkPatientRecords=====================================//
 
-        .catch(err => res.status(err.status).json({
-            message: err.message
-        }).json({
-            status: err.status
-        }));
 
-});
-router.post('/createpolicy', cors(),async function(req, res) {
+    router.get("/RetrieveBulkPatientRecords", cors(), (req, res) => {
 
-        
+        var startKey = '000';
+        console.log("startKey", startKey);
+        var endKey = '999';
+        console.log("endKey--", endKey);
+
+        getpatientdetails
+            .getpatientdetails(startKey, endKey)
+            .then(function(result) {
+
+                console.log("  result.query1234..>>>", result.query);
+                console.log("  result.querykey..>>>", result.query.Key);
+                res.status(result.status).json({
+                    message: result.query
+                })
+            })
+            .catch(err => res.status(err.status).json({
+                message: err.message
+            }));
+
+
+    });
+
+
+
+    //========================================CreateContract=============================================//
+
+    router.post('/createpolicy', cors(), async function(req, res) {
+
         var policys = req.body;
-        console.log("UI",policys);
+        console.log("UI", policys);
         var policyID = policys.policyID;
         var rulesids = [];
         for (var i = 0; i < policys.rules.length; i++) {
-            var idasdd = "E" + uniqid();
-            var idsObj = {
-                "id":idasdd,
-                "expression":policys.rules[i],
-                  created_at: new Date()
+            var expression = policys.rules[i];
+            console.log("expression", expression);
+            var TransactionDetails = {
+                "userid": "1",
+                "transactionstring": {
+                    "exp": policys.rules[i],
+                    "value": "",
+                    "params": "",
+                    "function": "validateExpression"
                 }
-            console.log("idasdd",idasdd,idsObj);
-            rulesids.push(idasdd);
+            }
+            var res1 = await savetransaction.evaluate(TransactionDetails)
+            console.log("res1", res1)
 
-            await createpolicy.policy1(idasdd,policys.rules[i])
-                .then(result => {
-                    console.log("SADASD",result);
-                }).catch(err => res.status(err.status).json({
-                    message: err.message
-                }))
-}
-console.log("7",rulesids);
-policys.rules = rulesids;
-console.log("5");
-var policyObj = {
-        "policyID":policys.policyID,
-        "policys":policys,
-          created_at: new Date()
+            if (res1.result == "Valid") {
+                var idasdd = "E" + uniqid();
+                var idsObj = {
+                    "id": idasdd,
+                    "expression": policys.rules[i],
+                    created_at: new Date()
+                }
+                console.log("idasdd", idasdd, idsObj);
+                rulesids.push(idasdd);
+
+                await createpolicy.policy1(idasdd, policys.rules[i])
+                    .then(result => {
+                        console.log("SADASD", result);
+                    }).catch(err => res.status(err.status).json({
+                        message: err.message
+                    }))
+
+                policys.rules = rulesids;
+                console.log("rulesids", rulesids);
+                var policyObj = {
+                    "policyID": policys.policyID,
+                    "policys": policys,
+                    created_at: new Date()
+                }
+                createpolicy.policy1(policyID, policyObj)
+                    .then(result => {
+                        res.status(result.status).json({
+                            message: result.message
+                        });
+                    })
+                    .catch(err => res.status(err.status).json({
+                        message: err.message
+                    }))
+            } else {
+                res.send({
+                    "message": res1.result,
+                    "comments": "please enter a valid expression"
+                })
+            }
         }
-createpolicy.policy1(policyID, policyObj)
-    .then(result => {
-        res.status(result.status).json({
-            message: result.message
-        });
-    })
-    .catch(err => res.status(err.status).json({
-        message: err.message
-    }))
-});
+    });
 
-router.post("/retrieveContract", cors(), (req, res) => {
+    //====================================RetrieveContract====================================================//
 
 
-    console.log("requ...123>>>ui>>>", req.body);
-    const userId = req.body.userId;
-  //  console.log("userId", userId);
+    router.post("/retrieveContract", cors(), (req, res) => {
 
+        console.log("request Id>>>ui>>>", req.body);
+        const userId = req.body.userId;
+        getpolicy1.getpolicy1(userId)
+            .then(result => {
+                console.log("result....123>>>", result);
+                res.status(result.status).json({
+                    result: result.docs,
 
-    getpolicy1.getpolicy1(userId)
-        .then(result => {
-            console.log("result....123>>>", result);
-            res.status(result.status).json({
-                result: result.docs,
-
+                })
             })
-        })
 
-        .catch(err => res.status(err.status).json({
-            message: err.message
-        }).json({
-            status: err.status
-        }));
-})
+            .catch(err => res.status(err.status).json({
+                message: err.message
+            }).json({
+                status: err.status
+            }));
+    })
 
-router.post('/evaluateExpression', cors(), (req, res) => {
-    var expression = req.body.expression;
-    var params = req.body.params;
-    var TransactionDetails = {"userid":"1",
-    "transactionstring":{"exp":req.body.expression, "value":req.body.value,"params":req.body.params}}
-    savetransaction.evaluate(TransactionDetails)
-        .then(function(result) {
-            console.log(result)
- 
-            res.send(result);
-        }).catch(err => res.status(err.status).json({
-            message: err.message
-        }));
+
+
+//========================================EvaluateExpression========================================//
+
+    router.post('/evaluateExpression', cors(), (req, res) => {
+
+        var expression = req.body.expression;
+        var params = req.body.params;
+
+        var TransactionDetails = {
+            "userid": "1",
+            "transactionstring": {
+                "exp": req.body.expression,
+                "value": req.body.value,
+                "params": req.body.params,
+                "function": "validatefunc"
+            }
+        }
+        savetransaction.evaluate(TransactionDetails)
+            .then(function(result) {
+                console.log(result)
+                res.send(result);
+            }).catch(err => res.status(err.status).json({
+                message: err.message
+            }));
+    });
+
+
+    //=====================================ValidateExpression==========================================//
+
+    router.post('/validateExpression', cors(), (req, res) => {
+
+        var expression = req.body.expression;
+        var TransactionDetails = {
+            "userid": "1",
+            "transactionstring": {
+                "exp": req.body.expression,
+                "value": "",
+                "params": "",
+                "function": "validateExpression"
+            }
+        }
+        savetransaction.evaluate(TransactionDetails)
+            .then(function(result) {
+                console.log(result)
+                res.send(result);
+            }).catch(err => res.status(err.status).json({
+                message: err.message
+            }));
     });
 }

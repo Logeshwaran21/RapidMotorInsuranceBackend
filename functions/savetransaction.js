@@ -2,7 +2,7 @@
 // const bc_client = require('../blockchain_sample_client'); const bcrypt =
 // require('bcryptjs');
 var bcSdk = require('../fabcar/invoke');
-const  patientpage = require('../models/patientdetails');
+//const  patientpage = require('../models/patientdetails');
 
 exports.savetransaction = (userId,transactionstring) => {
     return new Promise((resolve, reject) => {
@@ -50,7 +50,7 @@ exports.evaluate = (expression) => {
  
  bcSdk.evaluvate(expression).then((result) => resolve({
     status: 201,
-    message: 'eveluvated sucessfully !',
+    message: 'evaluated sucessfully !',
     result:result
 })).catch(err => {
             if (err.code == 11000) {
