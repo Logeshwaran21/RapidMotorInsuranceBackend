@@ -1,16 +1,10 @@
-
-
 'use strict';
 var bcSdk = require('../fabcar/invoke.js');
 const tpaupdate= require('../models/updatetpa')
-
-
-
 exports.updatetpa=(submitID,status,message,AmountuserHavetopay,AmountPayerWouldPay)=>{
 
     return new Promise((resolve,reject)=>{
         var newupdate = new tpaupdate({
-
             "submitID": submitID, 
             "status":status,
             "message": message,

@@ -10,7 +10,7 @@ const autotpa = require('./functions/autotpa')
 const createpolicy = require('./functions/policy1')
 const getpolicy1 = require('./functions/getpolicy1')
 const savetransaction = require('./functions/savetransaction')
-
+const submitdata = require('./functions/submitdata')
 var bcSdk = require('./fabcar/invoke')
 var config = require('./config.json')
 var crypto = require('crypto')
@@ -156,7 +156,20 @@ module.exports = router => {
                 message: err.message
             }))
     });
+  //============================waitingforapproval==========================================  
+  router.get('/waitingforapproval', cors(), function(req, res) {
 
+    submitdata.mocks()
+        .then(result => {
+            console.log(result)
+            res.status(result.status).json({
+                patients: result.patients
+            });
+
+        }).catch(err => res.status(err.status).json({
+            message: err.message
+        }))
+});
 
     //============================================RetrieveClaim===============================================//
 
